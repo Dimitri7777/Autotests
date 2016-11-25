@@ -1,17 +1,17 @@
-package ru.team.infotech;
+package ru.team.infotech.selenide;
 
-import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Configuration;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import ru.test.google.GooglePage;
+import ru.test.google.SearchResultsPage;
 
 import static com.codeborne.selenide.CollectionCondition.size;
-import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.Selenide.open;
-
+import static org.junit.Assert.assertTrue;
 
 
 public class AutoTests {
@@ -22,6 +22,54 @@ public class AutoTests {
         Configuration.browser = "chrome";
     }
 
+    @Test
+    public void loginAndBuyTestTwo(){
+        open("http://0s.nj2wwzjomnxw2.cmle.ru/de/de/");
+
+        $(By.xpath("html/body/header/div/div[3]/account-menu/div")).click();
+        $(By.xpath("html/body/header/div/div[3]/account-menu/div/div/div[2]/a")).click();
+        $("#email").sendKeys("dimitri.golubev1978@gmail.com");
+        $("#password").sendKeys("#536247Goldim");
+
+        $(By.cssSelector(".btn-form.primary")).click();
+        $(By.linkText("Filme & Serien")).click();
+
+        $(By.linkText("Film-Highlights")).click();
+
+        $(By.partialLinkText("Eddie The Eagle")).click();
+
+
+    }
+
+    @Test
+    public void searchTurtlesTestThree(){
+        open("http://0s.nj2wwzjomnxw2.cmle.ru/de/de/");
+        $("#searchfield").sendKeys("ninja turtles");
+        $("#searchbutton").click();
+
+        // Click "Album" link
+       $(By.xpath(".//*[@id='content-div']/ui-view/div[2]/div/div/react-component/section/div[1]/h3/a")).click();
+       System.out.println("Amount of 'Turtles' albums: " + $$(By.partialLinkText("Turtles")).size());
+       assertTrue($$(By.partialLinkText("Turtles")).size()>= 1);
+
+        back();
+
+        // Click "Song" link
+       $(By.xpath(".//*[@id='content-div']/ui-view/div[4]/div/div/react-component/section/div[1]/h3/a")).click();
+       System.out.println("Amount of 'Turtles' songs: " + $$(By.partialLinkText("Turtles")).size());
+       assertTrue($$(By.partialLinkText("Turtles")).size()>= 1);
+
+       back();
+
+        // Click "Movies" link
+        $(By.xpath(".//*[@id='content-div']/ui-view/div[5]/div/div/react-component/section/div[1]/h3/a")).click();
+        System.out.println("Amount of 'Turtles' films: " + $$(By.partialLinkText("Turtles")).size());
+        assertTrue($$(By.partialLinkText("Turtles")).size()>= 1);
+
+    }
+
+
+    // 27/10/2016 Works OK
     @Test
     public void testOne() {
 
@@ -42,6 +90,7 @@ public class AutoTests {
 
     }
 
+    // 27/10/2016 Works OK
     @Test
     public void testTwo() {
 
@@ -49,8 +98,9 @@ public class AutoTests {
         $(byLinkText("О компании")).hover().click();
         $(byLinkText("Направления деятельности")).hover().click();
         $(".btn").click();
+        sleep(2000);
         $(".publications-list").findElementByPartialLinkText("Умные города").click();
-
+        sleep(8000);
     }
 
     @Test
@@ -68,6 +118,7 @@ public class AutoTests {
 
     }
 
+    // 27/10/2016 Works OK
     @Test
     public void testFour(){
 
@@ -75,9 +126,9 @@ public class AutoTests {
         // Показать больше решений
         $(byXpath("html/body/div[1]/div/div/div[2]/div/div/p[1]")).click();
 
-
     }
 
+    // 27/10/2016 Works OK
     @Test
     public void testFive(){
 
@@ -99,6 +150,7 @@ public class AutoTests {
 
     }
 
+    // 27/10/2016 Works OK
     @Test
     public void testSix() {
 
@@ -113,6 +165,7 @@ public class AutoTests {
 
     }
 
+    // 27/10/2016 Works OK
     @Test
     public void GoogleTestOne(){
         open("http://www.google.com");
@@ -125,6 +178,7 @@ public class AutoTests {
         System.out.println($$("#ires").toString());
     }
 
+    // 27/10/2016 Works OK
     @Test
     public void GooglePageObjectTest(){
         GooglePage page = open("http://google.com/ncr", GooglePage.class);
@@ -133,6 +187,7 @@ public class AutoTests {
         results.getResult(0).shouldHave(text("Selenide: concise UI tests in Java"));
     }
 
+    // 27/10/2016 Works OK
     @Test
     public void testSeven(){
         // Тест поиска
@@ -145,6 +200,7 @@ public class AutoTests {
         $(".cross-search").click();
     }
 
+    // 27/10/2016 Works OK
     @Test
     public void testGeo4MeOne(){
         open("http://geo4.me");
@@ -155,6 +211,7 @@ public class AutoTests {
 
    }
 
+    // 27/10/2016 Works OK
     @Test
     public void testGeo4MeTwo(){
         open("http://geo4.me");
@@ -164,15 +221,16 @@ public class AutoTests {
         $(byXpath(".//*[@id='msg']/div")).hover();
     }
 
+    // 27/10/2016 Works OK
     @Test
     public void BookingTest(){
         open("http://booking.com");
 
-        // Выбрать даты отдыха 11 октября - 20 октября 2016
-        $(By.cssSelector("div.sb-date-field__display")).click();
-        $(By.xpath("//form[@id='frm']/div[3]/div/div/div/div[2]/div[2]/div[2]/div[3]/div/div/div/table/tbody/tr[3]/td[2]/span")).click();
-        $(By.xpath("//form[@id='frm']/div[3]/div/div/div[2]/div[2]/div/div/div[2]")).click();
-        $(By.xpath("//form[@id='frm']/div[3]/div/div/div[2]/div[2]/div[2]/div[2]/div[3]/div/div/div/table/tbody/tr[4]/td[4]/span")).click();
+        // Выбрать даты отдыха 21 ноября - 30 ноября 2016
+        $(By.cssSelector(".sb-date-field__display")).click();
+
+       $(By.xpath(".//*[@id='frm']/div[3]/div/div[1]/div[1]/div[2]/div[2]/div[2]/div[3]/div/div/div[1]/table/tbody/tr[4]/td[1]/span")).click();
+       // $(By.xpath(".//*[@id='frm']/div[3]/div/div[1]/div[1]/div[2]/div[2]/div[2]/div[3]/div/div/div[1]/table/tbody/tr[5]/td[3]")).click();
 
         // Выбрать место отдыха
         $("#ss").sendKeys("Лондон");
@@ -185,13 +243,13 @@ public class AutoTests {
         $(byXpath(".//*[@id='frm']/div[4]/div[2]/div[2]/label[2]/input")).click();
 
         // Выбрать 2 комнаты
-        $("#no_rooms").selectOption(2);
+         $("#no_rooms").selectOption(2);
 
         // Выбрать 2 взрослых
-        $("#group_adults").selectOption(2);
+         $("#group_adults").selectOption(2);
 
         // Выбрать 1 ребенка
-        $("#group_children").selectOption(1);
+         $("#group_children").selectOption(1);
 
         // Нажать Submit button
         $(".sb-searchbox__button").click();
@@ -201,9 +259,9 @@ public class AutoTests {
     @Test
     public void Geo4MeWebTestLogin(){
         open("http://frontend.infotech.team");
-        $("#qa-uname-input").sendKeys("png@infotech.team");
-        $("#qa-password-input").sendKeys("admin");
-        $("#qa-login-button").click();
+        //$("#qa-uname-input").sendKeys("png@infotech.team");
+        //$("#qa-password-input").sendKeys("admin");
+        //$("#qa-login-button").click();
 
     }
 
@@ -218,6 +276,7 @@ public class AutoTests {
         // results.getResult(5).shouldHave(text("Южный административный округ, Москва, Донской район"));
         results.getTitle(1).shouldHave(text("Поступила"));
         results.getIssuesList().shouldHaveSize(1); // returns 1 table of contents
+        System.out.print(results.getIssuesList());
     }
 
     @Test
